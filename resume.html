@@ -90,6 +90,23 @@
             font-size: 0.9em;
             display: block;
         }
+
+        ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 0.5rem;
+            background: var(--color-accent);
+            color: white;
+            border-radius: 0.25rem;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
