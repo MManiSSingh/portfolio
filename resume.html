@@ -6,7 +6,7 @@
     <title>Resume - Manjot S. Samra</title>
     <style>
         :root {
-            --color-accent: oklch(70% 50% 260);
+            --color-accent: oklch(65% 50% 0);
         }
 
         html {
@@ -17,7 +17,6 @@
             max-width: 100ch;
             margin-inline: auto;
             padding: 1rem;
-            font-family: 'Roboto', sans-serif;
         }
 
         nav {
@@ -48,21 +47,10 @@
             padding-bottom: 0.1em;
         }
 
-        h1, h4, h5, h6 {
+        h1, h2, h3, h4, h5, h6 {
             line-height: 1.1;
+            text-wrap: balance;
         }
-
-        h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--color-accent);
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            font-weight: normal;
-        }
-
 
         h1 {
             font-size: 400%;
@@ -90,23 +78,6 @@
             font-size: 0.9em;
             display: block;
         }
-
-        ul {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-            gap: 0.5rem;
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            padding: 0.5rem;
-            background: var(--color-accent);
-            color: white;
-            border-radius: 0.25rem;
-            text-align: center;
-        }
-
     </style>
 </head>
 <body>
@@ -126,7 +97,7 @@
         <h2>Education</h2>
         <article>
             <header>
-                <h3>Bachelor of Science in Computer Science</h3>
+                <h3>Bachelor of Science in Data Science</h3>
                 <time>2019 - 2023</time>
             </header>
             <p>University of California, Riverside</p>
@@ -139,7 +110,13 @@
                 <h3>Web Developer Intern</h3>
                 <time>Summer 2022</time>
             </header>
-            <p>Developed and maintained front-end web applications, collaborated with design teams, and optimized website performance.</p>
+            <ul>
+    <li>Developed and maintained front-end web applications, collaborated with design teams, and optimized website performance.</li>
+    <li>Implemented responsive design techniques to ensure compatibility across devices and browsers.</li>
+    <li>Optimized web page loading times by integrating modern performance enhancement strategies.</li>
+    <li>Collaborated with cross-functional teams to translate business requirements into technical solutions.</li>
+    <li>Conducted user testing and troubleshooting to ensure a seamless user experience.</li>
+</ul>
         </article>
     </section>
     <section>
