@@ -91,22 +91,21 @@
             display: block;
         }
 
-        ul {
+        .skills-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
             gap: 0.5rem;
             list-style: none;
-            padding: 0;
+         padding: 0;
         }
 
-        li {
+        .skills-list li {
             padding: 0.5rem;
             background: var(--color-accent);
             color: white;
             border-radius: 0.25rem;
-            text-align: center;
-        }
-
+        text-align: center;
+        }   
     </style>
 </head>
 <body>
@@ -152,11 +151,11 @@
     
     <section>
         <h2>Skills</h2>
-        <ul>
+        <ul class="skills-list">
             <li>HTML, CSS, JavaScript</li>
             <li>Python, Java</li>
             <li>Version Control (Git)</li>
-        </ul>
+        </ul>        
     </section>
     <section>
         <h2>Projects</h2>
