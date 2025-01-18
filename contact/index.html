@@ -45,6 +45,39 @@
             border-bottom: 0.4em solid oklch(85% 3% 200); 
             padding-bottom: 0.1em;
         }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-block: 0.5rem;
+        }
+
+        input, textarea, button {
+            display: block;
+            width: 100%;
+            padding: 0.5em;
+            font: inherit;
+            box-sizing: border-box;
+            border: 1px solid oklch(80% 3% 200);
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--color-accent);
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: oklch(60% 45% 0);
+        }
     </style>
 </head>
 <body>
