@@ -5,30 +5,20 @@ function $$(selector, context = document) {
 }
 
 let pages = [
-    { url: "portfolio/", title: "Home" },
-    { url: "projects.html", title: "Projects" },
-    { url: "contact.html", title: "Contact" },
-    { url: "resume.html", title: "Resume" },
+    { url: "/portfolio/", title: "Home" },
+    { url: "/portfolio/projects.html", title: "Projects" },
+    { url: "/portfolio/contact.html", title: "Contact" },
+    { url: "/portfolio/resume.html", title: "Resume" },
     { url: "https://github.com/MManiSSingh", title: "GitHub Profile" }
-  ];
-  
-
-const ARE_WE_HOME = document.documentElement.classList.contains("home");
+];
 
 let nav = document.createElement("nav");
 document.body.prepend(nav);
 
 for (let p of pages) {
-  let url = p.url;
-  let title = p.title;
-
-  if (!ARE_WE_HOME && !url.startsWith("http")) {
-    url = "../" + url;
-  }
-
   let a = document.createElement("a");
-  a.href = url;
-  a.textContent = title;
+  a.href = p.url;
+  a.textContent = p.title;
   a.classList.toggle("current", a.host === location.host && a.pathname === location.pathname);
   a.toggleAttribute("target", a.host !== location.host);
   nav.append(a);
