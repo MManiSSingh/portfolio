@@ -28,10 +28,8 @@ for (let p of pages) {
   let a = document.createElement("a");
   a.href = url;
   a.textContent = title;
-
   a.classList.toggle("current", a.host === location.host && a.pathname === location.pathname);
-  a.toggleAttribute("target", a.host !== location.host); 
-
+  a.toggleAttribute("target", a.host !== location.host);
   nav.append(a);
 }
 
@@ -65,30 +63,46 @@ themeSelector.addEventListener("input", function (event) {
   setColorScheme(event.target.value);
 });
 
+export async function fetchJSON(url) {
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch projects: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching or parsing JSON data:', error);
+    }
+}
+
 async function loadProjects() {
-  try {
-    const response = await fetch("/portfolio/lib/projects.json"); 
-    const projects = await response.json();
+    try {
+        const projects = await fetchJSON("/portfolio/lib/projects.json");
+        console.log("Projects data:", projects);
 
-    const projectsContainer = document.querySelector(".projects");
-    if (!projectsContainer) return; 
+        const projectsContainer = document.querySelector(".projects");
+        if (!projectsContainer) return;
 
-    projectsContainer.innerHTML = ""; 
+        projectsContainer.innerHTML = "";
 
-    projects.forEach((project) => {
-      const article = document.createElement("article");
-      article.innerHTML = `
-        <h2>${project.title}</h2>
-        <img src="${project.image}" alt="">
-        <p>${project.description}</p>
-      `;
-      projectsContainer.appendChild(article);
-    });
-  } catch (error) {
-    console.error("Error loading projects:", error);
-  }
+        projects.forEach((project) => {
+            const article = document.createElement("article");
+            article.innerHTML = `
+                <h2>${project.title}</h2>
+                <img src="${project.image}" alt="">
+                <p>${project.description}</p>
+            `;
+            projectsContainer.appendChild(article);
+        });
+    } catch (error) {
+        console.error("Error loading projects:", error);
+    }
 }
 
 if (document.querySelector(".projects")) {
-  loadProjects();
+    loadProjects();
 }
