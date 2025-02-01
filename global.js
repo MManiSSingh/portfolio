@@ -5,12 +5,13 @@ function $$(selector, context = document) {
 }
 
 let pages = [
-  { url: "", title: "Home" },
-  { url: "projects/", title: "Projects" },
-  { url: "contact/", title: "Contact" },
-  { url: "resume.html", title: "Resume" },
-  { url: "https://github.com/MManiSSingh", title: "GitHub Profile" }
-];
+    { url: "/portfolio/", title: "Home" },
+    { url: "/portfolio/projects/", title: "Projects" },
+    { url: "/portfolio/contact/", title: "Contact" },
+    { url: "/portfolio/resume.html", title: "Resume" },
+    { url: "https://github.com/MManiSSingh", title: "GitHub Profile" }
+  ];
+  
 
 const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
