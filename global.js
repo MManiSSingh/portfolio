@@ -30,8 +30,7 @@ for (let p of pages) {
   a.textContent = title;
 
   a.classList.toggle("current", a.host === location.host && a.pathname === location.pathname);
-
-  a.toggleAttribute("target", a.host !== location.host);
+  a.toggleAttribute("target", a.host !== location.host); 
 
   nav.append(a);
 }
@@ -56,7 +55,7 @@ function setColorScheme(scheme) {
 }
 
 const themeSelector = document.getElementById("theme-selector");
-if ("colorScheme" in localStorage) {
+if (localStorage.getItem("colorScheme")) {
   let savedScheme = localStorage.getItem("colorScheme");
   setColorScheme(savedScheme);
   themeSelector.value = savedScheme;
@@ -65,3 +64,31 @@ if ("colorScheme" in localStorage) {
 themeSelector.addEventListener("input", function (event) {
   setColorScheme(event.target.value);
 });
+
+async function loadProjects() {
+  try {
+    const response = await fetch("/portfolio/lib/projects.json"); 
+    const projects = await response.json();
+
+    const projectsContainer = document.querySelector(".projects");
+    if (!projectsContainer) return; 
+
+    projectsContainer.innerHTML = ""; 
+
+    projects.forEach((project) => {
+      const article = document.createElement("article");
+      article.innerHTML = `
+        <h2>${project.title}</h2>
+        <img src="${project.image}" alt="">
+        <p>${project.description}</p>
+      `;
+      projectsContainer.appendChild(article);
+    });
+  } catch (error) {
+    console.error("Error loading projects:", error);
+  }
+}
+
+if (document.querySelector(".projects")) {
+  loadProjects();
+}
