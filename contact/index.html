@@ -59,31 +59,44 @@
 
         input, textarea {
             grid-column: 2 / 3;
+            width: 100%;
+            padding: 0.5em;
+            border: 1px solid oklch(80% 3% 200);
+            border-radius: 0.25rem;
         }
 
         button {
             grid-column: 1 / -1;
+            padding: 0.75em;
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: oklch(60% 50% 260);
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="https://mmanissingh.github.io/portfolio/">Home</a>
-        <a href="https://mmanissingh.github.io/portfolio/projects/">Projects</a>
-        <a href="https://mmanissingh.github.io/portfolio/contact/">Contact</a>
-        <a href="https://mmanissingh.github.io/portfolio/resume.html">Resume</a>
-        <a href="https://github.com/MManiSSingh" target="_blank">GitHub Profile</a>
-    </nav>
+
     <h1>Contact</h1>
     <form action="mailto:YOUR_EMAIL_ADDRESS" method="POST" enctype="text/plain">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
+        
         <label for="subject">Subject:</label>
         <input type="text" id="subject" name="subject">
+        
         <label for="body">Message:</label>
         <textarea id="body" name="body" rows="5"></textarea>
+        
         <button>Send Message</button>
     </form>
+
     <script src="/portfolio/global.js" type="module"></script>
+
 </body>
 </html>
