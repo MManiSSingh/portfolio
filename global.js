@@ -70,25 +70,41 @@ export async function fetchJSON(url) {
     }
 }
 
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+    if (!containerElement) return;
+    containerElement.innerHTML = '';
+
+    projects.forEach((project) => {
+        const article = document.createElement("article");
+        article.innerHTML = `
+            <${headingLevel}>${project.title}</${headingLevel}>
+            <img src="${project.image}" alt="${project.title}">
+            <p>${project.description}</p>
+        `;
+        containerElement.appendChild(article);
+    });
+}
+
+export async function fetchGitHubData(username) {
+    return fetchJSON(`https://api.github.com/users/${username}`);
+}
+
 async function loadProjects() {
     try {
         const projects = await fetchJSON("/portfolio/lib/projects.json");
         console.log("Projects data:", projects);
 
         const projectsContainer = document.querySelector(".projects");
+        const projectsTitle = document.querySelector(".projects-title");
+        
         if (!projectsContainer) return;
 
         projectsContainer.innerHTML = "";
+        if (projectsTitle) {
+            projectsTitle.textContent = `Projects (${projects.length})`;
+        }
 
-        projects.forEach((project) => {
-            const article = document.createElement("article");
-            article.innerHTML = `
-                <h2>${project.title}</h2>
-                <img src="${project.image}" alt="">
-                <p>${project.description}</p>
-            `;
-            projectsContainer.appendChild(article);
-        });
+        renderProjects(projects, projectsContainer, 'h2');
     } catch (error) {
         console.error("Error loading projects:", error);
     }
