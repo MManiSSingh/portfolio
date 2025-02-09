@@ -1,38 +1,74 @@
 [
-    {
-      "title": "Lorem ipsum dolor sit.",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur omnis accusantium molestias obcaecati sed iste beatae quas voluptas totam ipsam ad voluptatem velit quidem, laborum inventore ratione suscipit amet nam?"
-    },
-    {
-      "title": "Nobis quod repellendus dolores.",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Fugiat animi perferendis quae labore! Vero iste aut unde architecto? Provident, laborum nihil vel nostrum debitis unde error mollitia inventore, tempore repudiandae asperiores hic expedita similique maiores distinctio ipsa illo."
-    },
-    {
-      "title": "Id ad laboriosam eius.",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Quidem, dicta aperiam! Laboriosam deserunt, fuga sed explicabo vel eum natus itaque officiis ab quos eaque repellendus fugiat possimus vitae obcaecati ipsa! Placeat voluptatem magni fuga laboriosam dolor fugiat ratione!"
-    },
-    {
-      "title": "Modi, possimus provident. Ullam?",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Accusamus in eaque porro dolor repellat amet odit. Nulla pariatur minus rem, est ea itaque eius! Quidem commodi odio, aperiam asperiores inventore suscipit aliquam ad qui? Sequi debitis adipisci assumenda."
-    },
-    {
-      "title": "Quidem dolor velit fugiat!",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Accusamus voluptatibus ipsam sequi incidunt illum delectus, exercitationem dolorem ea illo laudantium dignissimos facilis adipisci, ab magnam possimus sapiente voluptate tenetur eos aut corrupti. Non tempora aspernatur asperiores quam obcaecati."
-    },
-    {
-      "title": "Incidunt, optio. Quas, inventore.",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Commodi perspiciatis eaque odit necessitatibus illum a quas! Doloribus, omnis, blanditiis id repellat, maxime consectetur at vero laudantium commodi aperiam autem! Optio explicabo temporibus perferendis tempore totam rerum, quae modi."
-    },
-    {
-      "title": "Odit deleniti provident laboriosam!",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Itaque ipsam, corporis odio voluptatum pariatur eveniet delectus rem error saepe, dignissimos ex, ut ducimus incidunt laboriosam maxime atque. Commodi blanditiis quam debitis temporibus, iure sapiente fugit sit assumenda ut?"
-    }
-  ]
-  
+  {
+    "title": "Expository Visualization",
+    "year": "2024",
+    "image": "images/Project1.png",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur omnis accusantium molestias obcaecati sed iste beatae quas voluptas totam ipsam ad voluptatem velit quidem, laborum inventore ratione suscipit amet nam?"
+  },
+  {
+    "title": "Nobis quod repellendus dolores.",
+    "year": "2023",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Fugiat animi perferendis quae labore! Vero iste aut unde architecto? Provident, laborum nihil vel nostrum debitis unde error mollitia inventore, tempore repudiandae asperiores hic expedita similique maiores distinctio ipsa illo."
+  },
+  {
+    "title": "Id ad laboriosam eius.",
+    "year": "2022",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Quidem, dicta aperiam! Laboriosam deserunt, fuga sed explicabo vel eum natus itaque officiis ab quos eaque repellendus fugiat possimus vitae obcaecati ipsa! Placeat voluptatem magni fuga laboriosam dolor fugiat ratione!"
+  },
+  {
+    "title": "Modi, possimus provident. Ullam?",
+    "year": "2021",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Accusamus in eaque porro dolor repellat amet odit. Nulla pariatur minus rem, est ea itaque eius! Quidem commodi odio, aperiam asperiores inventore suscipit aliquam ad qui? Sequi debitis adipisci assumenda."
+  },
+  {
+    "title": "Quidem dolor velit fugiat!",
+    "year": "2020",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Accusamus voluptatibus ipsam sequi incidunt illum delectus, exercitationem dolorem ea illo laudantium dignissimos facilis adipisci, ab magnam possimus sapiente voluptate tenetur eos aut corrupti. Non tempora aspernatur asperiores quam obcaecati."
+  },
+  {
+    "title": "Incidunt, optio. Quas, inventore.",
+    "year": "2019",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Commodi perspiciatis eaque odit necessitatibus illum a quas! Doloribus, omnis, blanditiis id repellat, maxime consectetur at vero laudantium commodi aperiam autem! Optio explicabo temporibus perferendis tempore totam rerum, quae modi."
+  },
+  {
+    "title": "Odit deleniti provident laboriosam!",
+    "year": "2018",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Itaque ipsam, corporis odio voluptatum pariatur eveniet delectus rem error saepe, dignissimos ex, ut ducimus incidunt laboriosam maxime atque. Commodi blanditiis quam debitis temporibus, iure sapiente fugit sit assumenda ut?"
+  },
+  {
+    "title": "Project Placeholder 1",
+    "year": "2017",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "This is a placeholder description for additional projects."
+  },
+  {
+    "title": "Project Placeholder 2",
+    "year": "2016",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "This is another placeholder description for extra project data."
+  },
+  {
+    "title": "Project Placeholder 3",
+    "year": "2015",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Additional placeholder project information goes here."
+  },
+  {
+    "title": "Project Placeholder 4",
+    "year": "2014",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Filling out more projects for visualization requirements."
+  },
+  {
+    "title": "Project Placeholder 5",
+    "year": "2013",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Final placeholder project to meet data requirements."
+  }
+]
