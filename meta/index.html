@@ -191,13 +191,25 @@
         <div id="chart"></div>
     </div>
 
-    <!-- Tooltip for Commit Info -->
-    <dl id="commit-tooltip" class="tooltip" hidden>
+    <dl id="commit-tooltip" class="tooltip">
         <dt>Commit</dt>
         <dd><a href="" id="commit-link" target="_blank"></a></dd>
         <dt>Date</dt>
         <dd id="commit-date"></dd>
+        <dt>Time</dt>
+        <dd id="commit-time"></dd>
+        <dt>Author</dt>
+        <dd id="commit-author"></dd>
+        <dt>Lines Edited</dt>
+        <dd id="commit-lines"></dd>
     </dl>
+
+    <!-- Selection Count Display -->
+    <p id="selection-count">No commits selected</p>
+
+    <!-- Language Breakdown -->
+    <dl id="language-breakdown" class="stats"></dl>
+
 
     <script src="../global.js" type="module"></script>
     <script src="main.js" type="module"></script>
