@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta Analysis - Manjot S. Samra</title>
-
     <style>
         :root {
             --color-accent: oklch(70% 50% 250);
-            color-scheme: light dark;
+            color-scheme: light dark; /* Enables automatic dark mode */
         }
 
         html {
@@ -21,34 +20,108 @@
             padding: 1rem;
         }
 
+        nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            --border-color: oklch(50% 10% 200 / 40%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav a {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            padding: 0.5em;
+        }
+
+        nav a:hover {
+            border-bottom: 0.4em solid var(--color-accent);
+            padding-bottom: 0.1em;
+            background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+        }
+
+        nav a.current {
+            font-weight: bold;
+            color: var(--color-accent);
+            border-bottom: 0.4em solid oklch(85% 3% 200);
+            padding-bottom: 0.1em;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.1;
+        }
+
         h1 {
             font-size: 400%;
             text-align: center;
         }
 
-        p {
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+            gap: 1em;
+        }
+
+        article {
+            display: grid;
+            grid-template-rows: subgrid;
+            grid-row: span 3;
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: canvas;
+            color: canvastext;
+        }
+
+        h2 {
+            margin: 0;
             text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        /* Dark mode switcher */
+        .color-scheme {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 80%;
+            font-family: inherit;
+        }
+
+        .color-scheme select {
+            font-family: inherit;
         }
 
         /* Layout: Pie Chart & Legend Side by Side */
         .container {
             display: flex;
-            flex-direction: row;
+            flex-direction: row; /* Arrange items in a row */
             align-items: center;
             justify-content: center;
-            gap: 2rem;
+            gap: 2rem; /* Space between pie chart and legend */
         }
 
         /* Pie Chart Styling */
-        #meta-pie-plot {
+        #projects-pie-plot {
             max-width: 20em;
             overflow: visible;
             display: block;
         }
 
-        /* Legend Styling */
+        /* Legend Styling (Placed to the Right) */
         .legend {
             display: flex;
             flex-direction: column;
@@ -57,17 +130,19 @@
             border: 1px solid var(--color-accent);
             border-radius: 0.5rem;
             background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
-            min-width: 180px;
+            min-width: 180px; /* Ensure a consistent width */
         }
 
+        /* Legend Items */
         .legend-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-size: 1rem;
-            cursor: pointer;
+            cursor: pointer; /* Indicate interactivity */
         }
 
+        /* Swatch for each legend item */
         .swatch {
             width: 1em;
             height: 1em;
@@ -76,7 +151,7 @@
             display: inline-block;
         }
 
-        /* Hover Effect */
+        /* Hover Effect for Pie Chart */
         svg:has(path:hover) path:not(:hover) {
             opacity: 0.5;
         }
@@ -86,6 +161,7 @@
             cursor: pointer;
         }
 
+        /* Highlight Selected Wedge */
         .selected {
             --color: oklch(60% 45% 0) !important;
         }
@@ -94,9 +170,23 @@
             fill: var(--color);
         }
 
+        /* Highlight Selected Legend Item */
         .legend-item.selected {
             font-weight: bold;
             text-decoration: underline;
+        }
+
+        /* Search Bar */
+        .searchBar {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            margin: 1rem auto;
+            display: block;
         }
 
         /* Stats Section */
