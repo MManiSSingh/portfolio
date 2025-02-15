@@ -7,7 +7,6 @@ import { fetchJSON, renderProjects } from '../global.js';
     renderProjects(projects, projectsContainer, 'h2');
 
     let query = '';
-    let selectedIndex = -1;
     let selectedYear = null;
     let searchInput = document.querySelector('.searchBar');
 
@@ -44,14 +43,12 @@ import { fetchJSON, renderProjects } from '../global.js';
             .attr("fill", (d, i) => colorScale(i))
             .attr("stroke", "#fff")
             .attr("stroke-width", 1)
-            .attr("class", (_, idx) => (idx === selectedIndex ? "selected" : ""))
-            .on("click", function(_, i) {
-                if (selectedIndex === i) {
-                    selectedIndex = -1;
-                    selectedYear = null;
+            .attr("class", (d) => (d.data.label === selectedYear ? "selected" : ""))
+            .on("click", function(event, d) {
+                if (selectedYear === d.data.label) {
+                    selectedYear = null; // Deselect
                 } else {
-                    selectedIndex = i;
-                    selectedYear = newData[i].label;
+                    selectedYear = d.data.label; // Select new year
                 }
                 updateFilteredProjects();
             });
@@ -63,17 +60,15 @@ import { fetchJSON, renderProjects } from '../global.js';
                 .attr('class', 'legend-item')
                 .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
                 .on("click", () => {
-                    if (selectedIndex === idx) {
-                        selectedIndex = -1;
+                    if (selectedYear === d.label) {
                         selectedYear = null;
                     } else {
-                        selectedIndex = idx;
                         selectedYear = d.label;
                     }
                     updateFilteredProjects();
                 });
 
-            if (idx === selectedIndex) {
+            if (d.label === selectedYear) {
                 legendItem.classed("selected", true);
             }
         });
