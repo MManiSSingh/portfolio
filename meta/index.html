@@ -7,7 +7,7 @@
     <style>
         :root {
             --color-accent: oklch(70% 50% 250);
-            color-scheme: light dark; /* Enables automatic dark mode */
+            color-scheme: light dark;
         }
 
         html {
@@ -51,157 +51,18 @@
 
         h1, h2, h3, h4, h5, h6 {
             line-height: 1.1;
+            text-align: center;
         }
 
         h1 {
-            font-size: 400%;
-            text-align: center;
-        }
-
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-            gap: 1em;
-        }
-
-        article {
-            display: grid;
-            grid-template-rows: subgrid;
-            grid-row: span 3;
-            border: 1px solid var(--border-color);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            background-color: canvas;
-            color: canvastext;
-        }
-
-        h2 {
-            margin: 0;
-            text-align: center;
+            font-size: 3rem;
         }
 
         p {
-            margin: 0;
-        }
-
-        /* Dark mode switcher */
-        .color-scheme {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 80%;
-            font-family: inherit;
-        }
-
-        .color-scheme select {
-            font-family: inherit;
-        }
-
-        /* Layout: Pie Chart & Legend Side by Side */
-        .container {
-            display: flex;
-            flex-direction: row; /* Arrange items in a row */
-            align-items: center;
-            justify-content: center;
-            gap: 2rem; /* Space between pie chart and legend */
-        }
-
-        /* Pie Chart Styling */
-        #projects-pie-plot {
-            max-width: 20em;
-            overflow: visible;
-            display: block;
-        }
-
-        /* Legend Styling (Placed to the Right) */
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 1rem;
-            border: 1px solid var(--color-accent);
-            border-radius: 0.5rem;
-            background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
-            min-width: 180px; /* Ensure a consistent width */
-        }
-
-        /* Legend Items */
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1rem;
-            cursor: pointer; /* Indicate interactivity */
-        }
-
-        /* Swatch for each legend item */
-        .swatch {
-            width: 1em;
-            height: 1em;
-            border-radius: 50%;
-            background-color: var(--color);
-            display: inline-block;
-        }
-
-        /* Hover Effect for Pie Chart */
-        svg:has(path:hover) path:not(:hover) {
-            opacity: 0.5;
-        }
-
-        path {
-            transition: 300ms;
-            cursor: pointer;
-        }
-
-        /* Highlight Selected Wedge */
-        .selected {
-            --color: oklch(60% 45% 0) !important;
-        }
-
-        .selected path {
-            fill: var(--color);
-        }
-
-        /* Highlight Selected Legend Item */
-        .legend-item.selected {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        /* Search Bar */
-        .searchBar {
-            width: 100%;
-            max-width: 400px;
-            padding: 0.75rem;
-            border: 1px solid var(--color-accent);
-            border-radius: 0.5rem;
-            font-size: 1rem;
             text-align: center;
-            margin: 1rem auto;
-            display: block;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
-            gap: 1rem;
-            text-align: center;
-            padding: 1rem;
-            border: 1px solid var(--color-accent);
-            border-radius: 0.5rem;
-            background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
-            margin-top: 2rem;
-        }
-
-        .stats dt {
-            font-weight: bold;
-        }
-
-        .stats dd {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-
+        /* Summary stats section */
         .summary-container {
             display: flex;
             justify-content: center;
@@ -240,6 +101,53 @@
             font-size: 2.5rem;
             font-weight: bold;
         }
+
+        /* Scatter plot container */
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        #chart {
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            border: 1px solid var(--color-accent);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: color-mix(in oklch, var(--color-accent), canvas 95%);
+        }
+
+        /* Tooltip styling */
+        dl.tooltip {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 0.75rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.5rem;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+        }
+
+        dl.tooltip[visible] {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        circle {
+            transition: transform 200ms;
+            transform-origin: center;
+        }
+
+        circle:hover {
+            transform: scale(1.5);
+        }
     </style>
 </head>
 <body>
@@ -247,10 +155,49 @@
     <h1 class="meta-title">Meta Analysis of Codebase</h1>
     <p>Here are some insights into the codebase based on the commit history.</p>
 
-    <dl id="stats" class="stats"></dl>
+    <!-- Summary Stats -->
+    <div class="summary-container">
+        <div class="summary" id="stats">
+            <div class="stat-item">
+                <span>Commits</span>
+                <strong id="commits-count">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Files</span>
+                <strong id="files-count">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Total LOC</span>
+                <strong id="loc-count">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Max Depth</span>
+                <strong id="max-depth">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Longest Line</span>
+                <strong id="longest-line">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Max Lines</span>
+                <strong id="max-lines">--</strong>
+            </div>
+        </div>
+    </div>
 
-    <h2>Commits by Time of Day</h2>
-    <div id="chart"></div>
+    <!-- Scatter Plot -->
+    <div class="chart-container">
+        <h2>Commits by Time of Day</h2>
+        <div id="chart"></div>
+    </div>
+
+    <!-- Tooltip for Commit Info -->
+    <dl id="commit-tooltip" class="tooltip">
+        <dt>Commit</dt>
+        <dd><a href="" id="commit-link" target="_blank"></a></dd>
+        <dt>Date</dt>
+        <dd id="commit-date"></dd>
+    </dl>
 
     <script src="../global.js" type="module"></script>
     <script src="main.js" type="module"></script>
