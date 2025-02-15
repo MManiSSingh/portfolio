@@ -139,6 +139,7 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 1rem;
+            cursor: pointer; /* Indicate interactivity */
         }
 
         /* Swatch for each legend item */
@@ -148,6 +149,31 @@
             border-radius: 50%;
             background-color: var(--color);
             display: inline-block;
+        }
+
+        /* Hover Effect for Pie Chart */
+        svg:has(path:hover) path:not(:hover) {
+            opacity: 0.5;
+        }
+
+        path {
+            transition: 300ms;
+            cursor: pointer;
+        }
+
+        /* Highlight Selected Wedge */
+        .selected {
+            --color: oklch(60% 45% 0) !important;
+        }
+
+        .selected path {
+            fill: var(--color);
+        }
+
+        /* Highlight Selected Legend Item */
+        .legend-item.selected {
+            font-weight: bold;
+            text-decoration: underline;
         }
 
         /* Search Bar */
