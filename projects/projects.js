@@ -10,16 +10,16 @@ import { fetchJSON, renderProjects } from '../global.js';
     let query = '';
     let searchInput = document.querySelector('.searchBar');
 
-    // Function to render Pie Chart based on current projects
+    // Function to render Pie Chart based on the current project list
     function renderPieChart(projectsGiven) {
-        // Recalculate rolled data
+        // Step 2: Recalculate project count per year
         let newRolledData = d3.rollups(
             projectsGiven,
             (v) => v.length,  // Count projects per year
             (d) => d.year      // Group by year
         );
 
-        // Convert to { label, value } format
+        // Step 3: Convert to { label, value } format
         let newData = newRolledData.map(([year, count]) => ({
             value: count,
             label: year
@@ -27,13 +27,13 @@ import { fetchJSON, renderProjects } from '../global.js';
 
         let colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
-        // Clear previous SVG and legend before re-rendering
+        // Step 4: Clear previous chart and legend before re-rendering
         let svg = d3.select("#projects-pie-plot");
         svg.selectAll("path").remove();
         let legend = d3.select(".legend");
         legend.selectAll("li").remove();
 
-        // Generate Pie Chart
+        // Step 5: Generate Pie Chart
         let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
         let sliceGenerator = d3.pie().value(d => d.value);
         let arcData = sliceGenerator(newData);
@@ -47,7 +47,7 @@ import { fetchJSON, renderProjects } from '../global.js';
             .attr("stroke", "#fff")
             .attr("stroke-width", 1);
 
-        // Generate the Legend
+        // Step 6: Generate Legend
         newData.forEach((d, idx) => {
             legend.append('li')
                 .attr('style', `--color:${colorScale(idx)}`)
@@ -56,20 +56,23 @@ import { fetchJSON, renderProjects } from '../global.js';
         });
     }
 
-    // Initial render
+    // Initial render of the pie chart
     renderPieChart(projects);
 
-    // Search event listener
+    // Step 7: Search event listener to update projects dynamically
     searchInput.addEventListener('input', (event) => {
         query = event.target.value.toLowerCase();
 
-        // Filter projects dynamically
+        // Step 8: Filter projects based on search query
         let filteredProjects = projects.filter((project) => {
             let values = Object.values(project).join('\n').toLowerCase();
             return values.includes(query);
         });
 
-        // Re-render projects and pie chart
+        // Step 9: Clear old projects before re-rendering
+        projectsContainer.innerHTML = '';
+
+        // Step 10: Re-render filtered projects & pie chart
         renderProjects(filteredProjects, projectsContainer, 'h2');
         renderPieChart(filteredProjects);
     });
