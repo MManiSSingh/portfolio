@@ -155,37 +155,9 @@
     <h1 class="meta-title">Meta Analysis of Codebase</h1>
     <p>Here are some insights into the codebase based on the commit history.</p>
 
-    <!-- Summary Stats -->
-    <div class="summary-container">
-        <div class="summary" id="stats">
-            <div class="stat-item">
-                <span>Commits</span>
-                <strong id="commits-count">--</strong>
-            </div>
-            <div class="stat-item">
-                <span>Files</span>
-                <strong id="files-count">--</strong>
-            </div>
-            <div class="stat-item">
-                <span>Total LOC</span>
-                <strong id="loc-count">--</strong>
-            </div>
-            <div class="stat-item">
-                <span>Max Depth</span>
-                <strong id="max-depth">--</strong>
-            </div>
-            <div class="stat-item">
-                <span>Longest Line</span>
-                <strong id="longest-line">--</strong>
-            </div>
-            <div class="stat-item">
-                <span>Max Lines</span>
-                <strong id="max-lines">--</strong>
-            </div>
-        </div>
-    </div>
+    <div id="stats"></div>       
 
-    <!-- Scatter Plot -->
+
     <div class="chart-container">
         <h2>Commits by Time of Day</h2>
         <div id="chart"></div>
@@ -204,10 +176,9 @@
         <dd id="commit-lines"></dd>
     </dl>
 
-    <!-- Selection Count Display -->
+
     <p id="selection-count">No commits selected</p>
 
-    <!-- Language Breakdown -->
     <dl id="language-breakdown" class="stats"></dl>
 
 
