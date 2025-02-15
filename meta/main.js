@@ -131,7 +131,7 @@ function createScatterplot() {
     const colorScale = d3.scaleSequential(d3.interpolateWarm).domain([0, 24]);
 
     // Draw scatter points
-    svg.append("g")
+    const dots = svg.append("g")
         .attr("class", "dots")
         .selectAll("circle")
         .data(commits)
@@ -140,7 +140,44 @@ function createScatterplot() {
         .attr("cy", d => yScale(d.hourFrac))
         .attr("r", 5)
         .attr("fill", d => colorScale(d.hourFrac))
-        .attr("opacity", 0.8);
+        .attr("opacity", 0.8)
+        .on("mouseenter", (event, commit) => {
+            updateTooltipContent(commit);
+            updateTooltipVisibility(true);
+            updateTooltipPosition(event);
+        })
+        .on("mouseleave", () => {
+            updateTooltipContent({});
+            updateTooltipVisibility(false);
+        })
+        .on("mousemove", updateTooltipPosition);
+}
+
+// Update tooltip content
+function updateTooltipContent(commit) {
+    const link = document.getElementById('commit-link');
+    const date = document.getElementById('commit-date');
+
+    if (!commit.id) return;
+
+    link.href = commit.url;
+    link.textContent = commit.id;
+    date.textContent = commit.datetime?.toLocaleString('en', {
+        dateStyle: 'full',
+    });
+}
+
+// Update tooltip visibility
+function updateTooltipVisibility(isVisible) {
+    const tooltip = document.getElementById('commit-tooltip');
+    tooltip.hidden = !isVisible;
+}
+
+// Update tooltip position
+function updateTooltipPosition(event) {
+    const tooltip = document.getElementById('commit-tooltip');
+    tooltip.style.left = `${event.clientX + 10}px`;
+    tooltip.style.top = `${event.clientY + 10}px`;
 }
 
 // Run script after page loads
