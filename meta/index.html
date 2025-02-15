@@ -181,7 +181,6 @@
             display: block;
         }
 
-        /* Stats Section */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
@@ -202,6 +201,45 @@
             margin: 0;
             font-size: 1.2rem;
         }
+
+        .summary-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            background-color: color-mix(in oklch, var(--color-accent), canvas 95%);
+            width: 100%;
+            max-width: 80ch;
+            text-align: center;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-item span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .stat-item strong {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -209,7 +247,34 @@
     <h1 class="meta-title">Meta Analysis of Codebase</h1>
     <p>Here are some insights into the codebase based on the commit history.</p>
 
-    <dl id="stats" class="stats"></dl>
+    <div class="summary-container">
+        <div class="summary" id="stats">
+            <div class="stat-item">
+                <span>Commits</span>
+                <strong id="commits-count">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Files</span>
+                <strong id="files-count">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Total LOC</span>
+                <strong id="loc-count">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Max Depth</span>
+                <strong id="max-depth">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Longest Line</span>
+                <strong id="longest-line">--</strong>
+            </div>
+            <div class="stat-item">
+                <span>Max Lines</span>
+                <strong id="max-lines">--</strong>
+            </div>
+        </div>
+    </div>
 
     <script src="../global.js" type="module"></script>
     <script src="main.js" type="module"></script>
