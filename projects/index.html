@@ -151,6 +151,19 @@
             background-color: var(--color);
             display: inline-block;
         }
+
+        /* Search Bar */
+        .searchBar {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            margin: 1rem auto;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -161,6 +174,9 @@
         <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
         <ul class="legend"></ul> <!-- Legend will be dynamically populated -->
     </div>
+
+    <!-- Search Bar -->
+    <input class="searchBar" type="search" aria-label="Search projects" placeholder="🔍 Search projects…">
 
     <div class="projects"></div> <!-- Projects will be dynamically added here -->
 
