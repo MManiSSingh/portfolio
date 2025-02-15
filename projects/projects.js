@@ -8,9 +8,9 @@ import { fetchJSON, renderProjects } from '../global.js';
 
     let query = '';
     let selectedIndex = -1;
+    let selectedYear = null;
     let searchInput = document.querySelector('.searchBar');
 
-    // Function to render the Pie Chart
     function renderPieChart(projectsGiven) {
         let newRolledData = d3.rollups(
             projectsGiven,
@@ -46,7 +46,13 @@ import { fetchJSON, renderProjects } from '../global.js';
             .attr("stroke-width", 1)
             .attr("class", (_, idx) => (idx === selectedIndex ? "selected" : ""))
             .on("click", function(_, i) {
-                selectedIndex = selectedIndex === i ? -1 : i;
+                if (selectedIndex === i) {
+                    selectedIndex = -1;
+                    selectedYear = null;
+                } else {
+                    selectedIndex = i;
+                    selectedYear = newData[i].label;
+                }
                 updateFilteredProjects();
             });
 
@@ -57,7 +63,13 @@ import { fetchJSON, renderProjects } from '../global.js';
                 .attr('class', 'legend-item')
                 .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
                 .on("click", () => {
-                    selectedIndex = selectedIndex === idx ? -1 : idx;
+                    if (selectedIndex === idx) {
+                        selectedIndex = -1;
+                        selectedYear = null;
+                    } else {
+                        selectedIndex = idx;
+                        selectedYear = d.label;
+                    }
                     updateFilteredProjects();
                 });
 
@@ -67,25 +79,21 @@ import { fetchJSON, renderProjects } from '../global.js';
         });
     }
 
-    // Function to update projects based on search and selected wedge
     function updateFilteredProjects() {
         let filteredProjects = projects.filter((project) => {
             let values = Object.values(project).join('\n').toLowerCase();
             let matchesSearch = values.includes(query);
-            let matchesYear = selectedIndex === -1 || project.year === d3.rollups(projects, (v) => v.length, (d) => d.year)[selectedIndex][0];
+            let matchesYear = selectedYear === null || project.year === selectedYear;
             return matchesSearch && matchesYear;
         });
 
-        // Clear and re-render projects and pie chart
         projectsContainer.innerHTML = '';
         renderProjects(filteredProjects, projectsContainer, 'h2');
         renderPieChart(filteredProjects);
     }
 
-    // Initial render
     renderPieChart(projects);
 
-    // Search event listener
     searchInput.addEventListener('input', (event) => {
         query = event.target.value.toLowerCase();
         updateFilteredProjects();
