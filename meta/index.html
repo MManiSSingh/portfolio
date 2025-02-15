@@ -3,18 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Analysis</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Meta Analysis - Manjot S. Samra</title>
+
+    <style>
+        :root {
+            --color-accent: oklch(70% 50% 250);
+            color-scheme: light dark;
+        }
+
+        html {
+            accent-color: var(--color-accent);
+        }
+
+        body {
+            max-width: 100ch;
+            margin-inline: auto;
+            padding: 1rem;
+        }
+
+        h1 {
+            font-size: 400%;
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Layout: Pie Chart & Legend Side by Side */
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        /* Pie Chart Styling */
+        #meta-pie-plot {
+            max-width: 20em;
+            overflow: visible;
+            display: block;
+        }
+
+        /* Legend Styling */
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 0.5rem;
+            background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
+            min-width: 180px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .swatch {
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            background-color: var(--color);
+            display: inline-block;
+        }
+
+        /* Hover Effect */
+        svg:has(path:hover) path:not(:hover) {
+            opacity: 0.5;
+        }
+
+        path {
+            transition: 300ms;
+            cursor: pointer;
+        }
+
+        .selected {
+            --color: oklch(60% 45% 0) !important;
+        }
+
+        .selected path {
+            fill: var(--color);
+        }
+
+        .legend-item.selected {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+            gap: 1rem;
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 0.5rem;
+            background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
+            margin-top: 2rem;
+        }
+
+        .stats dt {
+            font-weight: bold;
+        }
+
+        .stats dd {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Meta Analysis of Codebase</h1>
+    <h1 class="meta-title">Meta Analysis of Codebase</h1>
     <p>Here are some insights into the codebase based on the commit history.</p>
 
-    <div id="stats"></div>
+    <dl id="stats" class="stats"></dl>
 
+    <script src="../global.js" type="module"></script>
     <script src="main.js" type="module"></script>
-    <script src="/portfolio/global.js" type="module"></script>
+
 </body>
 </html>
