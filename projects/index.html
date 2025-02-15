@@ -55,6 +55,7 @@
 
         h1 {
             font-size: 400%;
+            text-align: center;
         }
 
         .projects {
@@ -76,6 +77,7 @@
 
         h2 {
             margin: 0;
+            text-align: center;
         }
 
         img {
@@ -103,18 +105,18 @@
             font-family: inherit;
         }
 
-        /* Layout for Pie Chart and Legend */
+        /* Layout: Pie Chart & Legend in Column Layout */
         .container {
             display: flex;
-            align-items: center;
-            gap: 2em;
-            justify-content: center;
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center everything */
+            gap: 1.5em; /* Add spacing */
         }
 
         /* Pie Chart Styling */
         #projects-pie-plot {
             max-width: 20em;
-            margin-block: 2em;
+            margin-block: 1em;
             overflow: visible;
             display: block;
         }
@@ -128,6 +130,8 @@
             border: 1px solid var(--color-accent);
             border-radius: 0.5rem;
             background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
+            width: 100%; /* Ensures it spans across the available space */
+            text-align: center;
         }
 
         /* Legend Items */
@@ -136,6 +140,7 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 1rem;
+            justify-content: center;
         }
 
         /* Swatch for each legend item */
