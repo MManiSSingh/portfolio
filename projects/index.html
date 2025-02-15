@@ -105,33 +105,32 @@
             font-family: inherit;
         }
 
-        /* Layout: Pie Chart & Legend in Column Layout */
+        /* Layout: Pie Chart & Legend Side by Side */
         .container {
             display: flex;
-            flex-direction: column; /* Stack items vertically */
-            align-items: center; /* Center everything */
-            gap: 1.5em; /* Add spacing */
+            flex-direction: row; /* Arrange items in a row */
+            align-items: center;
+            justify-content: center;
+            gap: 2rem; /* Space between pie chart and legend */
         }
 
         /* Pie Chart Styling */
         #projects-pie-plot {
             max-width: 20em;
-            margin-block: 1em;
             overflow: visible;
             display: block;
         }
 
-        /* Legend Styling */
+        /* Legend Styling (Placed to the Right) */
         .legend {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
             padding: 1rem;
             border: 1px solid var(--color-accent);
             border-radius: 0.5rem;
             background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
-            width: 100%; /* Ensures it spans across the available space */
-            text-align: center;
+            min-width: 180px; /* Ensure a consistent width */
         }
 
         /* Legend Items */
@@ -140,7 +139,6 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 1rem;
-            justify-content: center;
         }
 
         /* Swatch for each legend item */
