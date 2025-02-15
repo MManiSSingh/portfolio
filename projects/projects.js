@@ -7,9 +7,6 @@ import { fetchJSON, renderProjects } from '../global.js';
     const projectsContainer = document.querySelector('.projects');
     renderProjects(projects, projectsContainer, 'h2');
 
-    let query = '';
-    let searchInput = document.querySelector('.searchBar');
-
     // Function to render Pie Chart based on the current project list
     function renderPieChart(projectsGiven) {
         // Step 2: Recalculate project count per year
@@ -58,6 +55,9 @@ import { fetchJSON, renderProjects } from '../global.js';
 
     // Initial render of the pie chart
     renderPieChart(projects);
+
+    let query = '';
+    let searchInput = document.querySelector('.searchBar');
 
     // Step 7: Search event listener to update projects dynamically
     searchInput.addEventListener('input', (event) => {
