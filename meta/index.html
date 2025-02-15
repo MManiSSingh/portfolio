@@ -3,74 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Analysis - Manjot S. Samra</title>
-    <style>
-        :root {
-            --color-accent: oklch(70% 50% 250);
-            color-scheme: light dark;
-        }
-
-        html {
-            accent-color: var(--color-accent);
-        }
-
-        body {
-            max-width: 100ch;
-            margin-inline: auto;
-            padding: 1rem;
-        }
-
-        nav {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--color-accent);
-        }
-
-        nav a {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            padding: 0.5em;
-        }
-
-        nav a:hover {
-            border-bottom: 0.4em solid var(--color-accent);
-            padding-bottom: 0.1em;
-            background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-        }
-
-        nav a.current {
-            font-weight: bold;
-            color: var(--color-accent);
-            border-bottom: 0.4em solid oklch(85% 3% 200);
-            padding-bottom: 0.1em;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2rem;
-        }
-
-        .meta-info {
-            margin-top: 1rem;
-            text-align: center;
-        }
-    </style>
+    <title>Meta Analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
 
-    <nav>
-        <a href="../index.html">Home</a>
-        <a href="../projects.html">Projects</a>
-        <a href="../contact.html">Contact</a>
-        <a href="index.html" class="current">Meta</a>
-    </nav>
+    <h1>Meta Analysis of Codebase</h1>
+    <p>Here are some insights into the codebase based on the commit history.</p>
 
-    <h1>Meta Analysis of Project Code</h1>
-    <p class="meta-info">This page provides insights into the codebase, such as file counts, line counts, and complexity metrics.</p>
+    <div id="stats"></div>
 
-    <script src="/portfolio/global.js" type="module"></script>
+    <script src="main.js" type="module"></script>
 </body>
 </html>
