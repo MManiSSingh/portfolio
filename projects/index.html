@@ -103,27 +103,64 @@
             font-family: inherit;
         }
 
+        /* Layout for Pie Chart and Legend */
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 2em;
+            justify-content: center;
+        }
+
         /* Pie Chart Styling */
         #projects-pie-plot {
             max-width: 20em;
             margin-block: 2em;
             overflow: visible;
             display: block;
-            margin: 0 auto;
+        }
+
+        /* Legend Styling */
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 0.5rem;
+            background-color: color-mix(in oklch, var(--color-accent), canvas 90%);
+        }
+
+        /* Legend Items */
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Swatch for each legend item */
+        .swatch {
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            background-color: var(--color);
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <h2>Project Data Visualization</h2>
-    <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
-
     <h1 class="projects-title">Projects</h1>
+
+    <div class="container">
+        <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+        <ul class="legend"></ul> <!-- Legend will be dynamically populated -->
+    </div>
+
     <div class="projects"></div> <!-- Projects will be dynamically added here -->
 
     <script src="../global.js" type="module"></script>
     <script src="projects.js" type="module"></script>
 
-  
 </body>
 </html>
