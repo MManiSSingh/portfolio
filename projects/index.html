@@ -102,6 +102,15 @@
         .color-scheme select {
             font-family: inherit;
         }
+
+        /* Pie Chart Styling */
+        #projects-pie-plot {
+            max-width: 20em;
+            margin-block: 2em;
+            overflow: visible;
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -109,8 +118,11 @@
     <h1 class="projects-title">Projects</h1>
     <div class="projects"></div> <!-- Projects will be dynamically added here -->
 
-    <script src="../global.js" type="module"></script>
+    <h2>Project Data Visualization</h2>
+    <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+
+    <script src="global.js" type="module"></script>
     <script src="projects.js" type="module"></script>
-    <script src="index.js" type="module" defer></script>
+
 </body>
 </html>
