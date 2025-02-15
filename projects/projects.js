@@ -7,18 +7,22 @@ import { fetchJSON, renderProjects } from '../global.js';
     const projectsContainer = document.querySelector('.projects');
     renderProjects(projects, projectsContainer, 'h2');
 
-    // Step 2: Define Data with Labels
-    let data = [
-        { value: 3, label: 'Frontend' },
-        { value: 5, label: 'Backend' },
-        { value: 2, label: 'Fullstack' },
-        { value: 4, label: 'Data Science' },
-        { value: 1, label: 'Mobile' }
-    ];
+    // Step 2: Group Projects by Year
+    let rolledData = d3.rollups(
+        projects,
+        (v) => v.length,  // Count projects per year
+        (d) => d.year      // Group by year
+    );
+
+    // Step 3: Convert to { label, value } format
+    let data = rolledData.map(([year, count]) => ({
+        value: count,
+        label: year
+    }));
 
     let colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
-    // Step 3: Create Pie Chart
+    // Step 4: Create Pie Chart
     let arcGenerator = d3.arc()
         .innerRadius(0)  // Pie chart (0) or donut (>0)
         .outerRadius(50);
@@ -37,7 +41,7 @@ import { fetchJSON, renderProjects } from '../global.js';
         .attr("stroke", "#fff")
         .attr("stroke-width", 1);
 
-    // Step 4: Generate the Legend
+    // Step 5: Generate the Legend
     let legend = d3.select('.legend');
     
     data.forEach((d, idx) => {
