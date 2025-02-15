@@ -1,29 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" class="home">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manjot S. Samra: Personal site and portfolio</title>
+    <title>Projects - Manjot S. Samra</title>
     <style>
         :root {
-            --color-accent: oklch(70% 50% 260);
-            color-scheme: light dark;
+            --color-accent: oklch(70% 50% 250);
+            color-scheme: light dark; /* Enables automatic dark mode */
         }
+
         html {
             accent-color: var(--color-accent);
         }
+
         body {
-            max-width: 100ch; 
-            margin-inline: auto; 
-            padding: 1rem; 
+            max-width: 100ch;
+            margin-inline: auto;
+            padding: 1rem;
         }
-        img {
-            max-width: 50%; 
-            height: auto;   
-            display: block; 
-            margin: 1rem auto; 
-        }
+
         nav {
             display: flex;
             gap: 1rem;
@@ -31,24 +27,70 @@
             --border-color: oklch(50% 10% 200 / 40%);
             border-bottom: 1px solid var(--border-color);
         }
+
         nav a {
             flex: 1;
             text-align: center;
             text-decoration: none;
             color: inherit;
             padding: 0.5em;
-        }      
+        }
+
         nav a:hover {
             border-bottom: 0.4em solid var(--color-accent);
             padding-bottom: 0.1em;
             background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
         }
+
         nav a.current {
             font-weight: bold;
+            color: var(--color-accent);
             border-bottom: 0.4em solid oklch(85% 3% 200);
             padding-bottom: 0.1em;
         }
 
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.1;
+        }
+
+        h1 {
+            font-size: 400%;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+            gap: 1em;
+        }
+
+        article {
+            display: grid;
+            grid-template-rows: subgrid;
+            grid-row: span 3;
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: canvas;
+            color: canvastext;
+        }
+
+        h2 {
+            margin: 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        /* Dark mode switcher */
         .color-scheme {
             position: absolute;
             top: 1rem;
@@ -56,48 +98,19 @@
             font-size: 80%;
             font-family: inherit;
         }
+
         .color-scheme select {
             font-family: inherit;
-        }
-        
-        #profile-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            text-align: center;
-            margin-top: 1rem;
-        }
-        #profile-stats dt {
-            font-weight: bold;
-            color: gray;
-        }
-        #profile-stats dd {
-            font-size: 2rem;
-            margin: 0;
         }
     </style>
 </head>
 <body>
 
-    <h1>Manjot S. Samra</h1>
-    <p>This is my first site! This is great!</p>
-    <p>This is my first website! This is really interesting!</p>
-    <img src="images/blood-bay-gelding-2658878747.jpg" alt="A single horse galloping in a green field.">
+    <h1 class="projects-title">Projects</h1>
+    <div class="projects"></div> <!-- Projects will be dynamically added here -->
 
-    <h2>Latest Projects</h2>
-    <div class="projects"></div>
-    
-    <h2>My GitHub Stats</h2>
-    <div id="profile-stats">
-        <dl>
-            <dt>FOLLOWERS</dt><dd>--</dd>
-            <dt>FOLLOWING</dt><dd>--</dd>
-            <dt>PUBLIC REPOS</dt><dd>--</dd>
-            <dt>PUBLIC GISTS</dt><dd>--</dd>
-        </dl>
-    </div>
-
-    <script src="global.js" type="module"></script>
+    <script src="../global.js" type="module"></script>
+    <script src="projects.js" type="module"></script>
     <script src="index.js" type="module" defer></script>
-
 </body>
 </html>
