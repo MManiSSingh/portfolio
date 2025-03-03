@@ -110,13 +110,6 @@ function displayStats() {
             <span>Avg File</span>
             <strong>${avgFileLength.toFixed(2)}</strong>
         `);
-
-    summary.append('div')
-        .attr('class', 'stat-item')
-        .html(`
-            <span>Most Active</span>
-            <strong>${maxPeriod}</strong>
-        `);
 }
 
 function createScatterplot() {
