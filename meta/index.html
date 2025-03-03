@@ -1,189 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Analysis - Manjot S. Samra</title>
-    <style>
-        :root {
-            --color-accent: oklch(70% 50% 250);
-            color-scheme: light dark;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Analysis - Manjot S. Samra</title>
+  <style>
+    :root {
+      --color-accent: oklch(70% 50% 250);
+      color-scheme: light dark;
+    }
 
-        html {
-            accent-color: var(--color-accent);
-        }
+    html {
+      accent-color: var(--color-accent);
+    }
 
-        body {
-            max-width: 100ch;
-            margin-inline: auto;
-            padding: 1rem;
-        }
+    body {
+      max-width: 100ch;
+      margin-inline: auto;
+      padding: 1rem;
+    }
 
-        nav {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            --border-color: oklch(50% 10% 200 / 40%);
-            border-bottom: 1px solid var(--border-color);
-        }
+    nav {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      --border-color: oklch(50% 10% 200 / 40%);
+      border-bottom: 1px solid var(--border-color);
+    }
 
-        nav a {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            padding: 0.5em;
-        }
+    nav a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      padding: 0.5em;
+    }
 
-        nav a:hover {
-            border-bottom: 0.4em solid var(--color-accent);
-            padding-bottom: 0.1em;
-            background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-        }
+    nav a:hover {
+      border-bottom: 0.4em solid var(--color-accent);
+      padding-bottom: 0.1em;
+      background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+    }
 
-        nav a.current {
-            font-weight: bold;
-            color: var(--color-accent);
-            border-bottom: 0.4em solid oklch(85% 3% 200);
-            padding-bottom: 0.1em;
-        }
+    nav a.current {
+      font-weight: bold;
+      color: var(--color-accent);
+      border-bottom: 0.4em solid oklch(85% 3% 200);
+      padding-bottom: 0.1em;
+    }
 
-        h1, h2, h3, h4, h5, h6 {
-            line-height: 1.1;
-            text-align: center;
-        }
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.1;
+      text-align: center;
+    }
 
-        h1 {
-            font-size: 3rem;
-        }
+    h1 {
+      font-size: 3rem;
+    }
 
-        p {
-            text-align: center;
-        }
+    p {
+      text-align: center;
+    }
 
-        /* Summary stats section */
-        .summary-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2rem;
-        }
+    /* Summary stats section */
+    .summary-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
+    }
 
-        .summary {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 2rem;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            background-color: color-mix(in oklch, var(--color-accent), canvas 95%);
-            width: 100%;
-            max-width: 80ch;
-            text-align: center;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        }
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      background-color: color-mix(in oklch, var(--color-accent), canvas 95%);
+      width: 100%;
+      max-width: 80ch;
+      text-align: center;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        .stat-item span {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-        }
+    .stat-item span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+    }
 
-        .stat-item strong {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
+    .stat-item strong {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
 
-        /* Scatter plot container */
-        .chart-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 2rem;
-        }
+    /* Scatter plot container */
+    .chart-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+    }
 
-        #chart {
-            width: 100%;
-            max-width: 1000px;
-            height: 600px;
-            border: 1px solid var(--color-accent);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            background-color: color-mix(in oklch, var(--color-accent), canvas 95%);
-        }
+    #chart {
+      width: 100%;
+      max-width: 1000px;
+      height: 600px;
+      border: 1px solid var(--color-accent);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      background-color: color-mix(in oklch, var(--color-accent), canvas 95%);
+    }
 
-        /* Tooltip styling */
-        dl.tooltip {
-            position: fixed;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            padding: 0.75rem;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0.5rem;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
-        }
+    /* Tooltip styling */
+    dl.tooltip {
+      position: fixed;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      padding: 0.75rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+    }
 
-        dl.tooltip[visible] {
-            visibility: visible;
-            opacity: 1;
-        }
+    dl.tooltip[visible] {
+      visibility: visible;
+      opacity: 1;
+    }
 
-        circle {
-            transition: transform 200ms;
-            transform-origin: center;
-        }
+    circle {
+      transition: transform 200ms;
+      transform-origin: center;
+    }
 
-        circle:hover {
-            transform: scale(1.5);
-        }
-    </style>
+    circle:hover {
+      transform: scale(1.5);
+    }
+  </style>
 </head>
 <body>
 
-    <h1 class="meta-title">Meta Analysis of Codebase</h1>
-    <p>Here are some insights into the codebase based on the commit history.</p>
+  <h1 class="meta-title">Meta Analysis of Codebase</h1>
+  <p>Here are some insights into the codebase based on the commit history.</p>
 
-    <div id="stats"></div>       
+  <!-- Updated: summary stats container -->
+  <div class="summary-container">
+    <!-- We'll populate this .summary div from main.js -->
+    <div class="summary" id="stats"></div>
+  </div>
 
+  <div class="chart-container">
+    <h2>Commits by Time of Day</h2>
+    <div id="chart"></div>
+  </div>
 
-    <div class="chart-container">
-        <h2>Commits by Time of Day</h2>
-        <div id="chart"></div>
-    </div>
+  <dl id="commit-tooltip" class="tooltip">
+    <dt>Commit</dt>
+    <dd><a href="" id="commit-link" target="_blank"></a></dd>
+    <dt>Date</dt>
+    <dd id="commit-date"></dd>
+    <dt>Time</dt>
+    <dd id="commit-time"></dd>
+    <dt>Author</dt>
+    <dd id="commit-author"></dd>
+    <dt>Lines Edited</dt>
+    <dd id="commit-lines"></dd>
+  </dl>
 
-    <dl id="commit-tooltip" class="tooltip">
-        <dt>Commit</dt>
-        <dd><a href="" id="commit-link" target="_blank"></a></dd>
-        <dt>Date</dt>
-        <dd id="commit-date"></dd>
-        <dt>Time</dt>
-        <dd id="commit-time"></dd>
-        <dt>Author</dt>
-        <dd id="commit-author"></dd>
-        <dt>Lines Edited</dt>
-        <dd id="commit-lines"></dd>
-    </dl>
+  <p id="selection-count">No commits selected</p>
+  <dl id="language-breakdown" class="stats"></dl>
 
-
-    <p id="selection-count">No commits selected</p>
-
-    <dl id="language-breakdown" class="stats"></dl>
-
-
-    <script src="../global.js" type="module"></script>
-    <script src="main.js" type="module"></script>
-
+  <script src="../global.js" type="module"></script>
+  <script src="main.js" type="module"></script>
 </body>
 </html>
