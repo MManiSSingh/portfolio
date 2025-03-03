@@ -2,7 +2,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 let data = [];
 let commits = [];
-// Remove brushSelection and instead declare selectedCommits directly
+// Removed brushSelection; we now have selectedCommits
 let selectedCommits = [];
 let xScale, yScale; // Declare global scales
 
@@ -46,45 +46,86 @@ function processCommits() {
     });
 }
 
+/**
+ *  Displays the summary stats (commits, files, total LOC, etc.)
+ *  in a row with large numbers and small labels.
+ */
 function displayStats() {
-    const dl = d3.select('#stats').append('dl').attr('class', 'stats');
+    // Remove any previous content in #stats
+    d3.select('#stats').selectAll('*').remove();
 
-    dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
-    dl.append('dd').text(data.length);
-
-    dl.append('dt').text('Total commits');
-    dl.append('dd').text(commits.length);
-
-    let numFiles = d3.group(data, d => d.file).size;
-    let maxFileLength = d3.max(data, d => d.line);
-    let avgFileLength = d3.mean(
+    // Compute stats
+    const totalLOC = data.length;
+    const totalCommits = commits.length;
+    const numFiles = d3.group(data, d => d.file).size;
+    const maxFileLength = d3.max(data, d => d.line);
+    const avgFileLength = d3.mean(
         d3.rollups(data, v => d3.max(v, d => d.line), d => d.file),
         d => d[1]
     );
-
-    dl.append('dt').text('Number of Files');
-    dl.append('dd').text(numFiles);
-
-    dl.append('dt').text('Longest File (Lines)');
-    dl.append('dd').text(maxFileLength);
-
-    dl.append('dt').text('Avg File Length (Lines)');
-    dl.append('dd').text(avgFileLength.toFixed(2));
-
-    let mostActivePeriod = d3.rollups(
+    const mostActivePeriod = d3.rollups(
         data,
         v => v.length,
         d => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' })
     );
-    let maxPeriod = d3.greatest(mostActivePeriod, d => d[1])?.[0];
+    const maxPeriod = d3.greatest(mostActivePeriod, d => d[1])?.[0] ?? 'N/A';
 
-    dl.append('dt').text('Most Active Time of Day');
-    dl.append('dd').text(maxPeriod);
+    // Create a container for the summary row
+    const summary = d3.select('#stats')
+        .append('div')
+        .attr('class', 'summary');  // Make sure .summary is styled in your CSS
+
+    // Each stat is a .stat-item with a <span> label and a <strong> value
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Commits</span>
+            <strong>${totalCommits}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Files</span>
+            <strong>${numFiles}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Total LOC</span>
+            <strong>${totalLOC}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Longest Line</span>
+            <strong>${maxFileLength}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Avg File</span>
+            <strong>${avgFileLength.toFixed(2)}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Most Active</span>
+            <strong>${maxPeriod}</strong>
+        `);
 }
 
 function createScatterplot() {
-    const width = 1000, height = 600, margin = { top: 10, right: 10, bottom: 30, left: 50 };
-    const svg = d3.select('#chart').append('svg')
+    const width = 1000,
+          height = 600,
+          margin = { top: 10, right: 10, bottom: 30, left: 50 };
+
+    const svg = d3.select('#chart')
+        .append('svg')
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
 
@@ -108,14 +149,20 @@ function createScatterplot() {
         .call(d3.axisBottom(xScale));
     svg.append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(yScale)
-            .tickFormat(d => String(d % 24).padStart(2, '0') + ':00'));
+        .call(
+            d3.axisLeft(yScale)
+              .tickFormat(d => String(d % 24).padStart(2, '0') + ':00')
+        );
 
     // Add gridlines
     svg.append('g')
         .attr('class', 'gridlines')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(yScale).tickFormat('').tickSize(-width + margin.right + margin.left));
+        .call(
+            d3.axisLeft(yScale)
+              .tickFormat('')
+              .tickSize(-width + margin.right + margin.left)
+        );
 
     const dots = svg.append('g').attr('class', 'dots');
 
@@ -134,7 +181,7 @@ function createScatterplot() {
             // Optionally add a visual cue for selected elements
             d3.select(event.currentTarget).classed('selected', true);
         })
-        .on('mouseleave', function (event, commit) {
+        .on('mouseleave', function () {
             updateTooltipVisibility(false);
             d3.select(this).classed('selected', false);
         });
@@ -144,7 +191,9 @@ function createScatterplot() {
         .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
         .on('start brush end', brushed);
 
-    svg.append('g').attr('class', 'brush').call(brush);
+    svg.append('g')
+        .attr('class', 'brush')
+        .call(brush);
 }
 
 // Update the brushed function to directly update selectedCommits
@@ -174,13 +223,11 @@ function updateSelection() {
 }
 
 function updateSelectionCount() {
-    // Use selectedCommits directly
     document.getElementById('selection-count').textContent =
         `${selectedCommits.length || 'No'} commits selected`;
 }
 
 function updateLanguageBreakdown() {
-    // Use selectedCommits directly
     const container = document.getElementById('language-breakdown');
     
     if (selectedCommits.length === 0) {
