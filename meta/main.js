@@ -2,7 +2,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 let data = [];
 let commits = [];
-let brushSelection = null;
+// Remove brushSelection and instead declare selectedCommits directly
+let selectedCommits = [];
 let xScale, yScale; // Declare global scales
 
 async function loadData() {
@@ -23,7 +24,6 @@ async function loadData() {
 function processCommits() {
     commits = d3.groups(data, d => d.commit).map(([commit, lines]) => {
         let first = lines[0];
-
         let { author, date, time, timezone, datetime } = first;
         let ret = {
             id: commit,
@@ -57,7 +57,10 @@ function displayStats() {
 
     let numFiles = d3.group(data, d => d.file).size;
     let maxFileLength = d3.max(data, d => d.line);
-    let avgFileLength = d3.mean(d3.rollups(data, v => d3.max(v, d => d.line), d => d.file), d => d[1]);
+    let avgFileLength = d3.mean(
+        d3.rollups(data, v => d3.max(v, d => d.line), d => d.file),
+        d => d[1]
+    );
 
     dl.append('dt').text('Number of Files');
     dl.append('dd').text(numFiles);
@@ -68,7 +71,11 @@ function displayStats() {
     dl.append('dt').text('Avg File Length (Lines)');
     dl.append('dd').text(avgFileLength.toFixed(2));
 
-    let mostActivePeriod = d3.rollups(data, v => v.length, d => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' }));
+    let mostActivePeriod = d3.rollups(
+        data,
+        v => v.length,
+        d => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' })
+    );
     let maxPeriod = d3.greatest(mostActivePeriod, d => d[1])?.[0];
 
     dl.append('dt').text('Most Active Time of Day');
@@ -96,9 +103,13 @@ function createScatterplot() {
         .range([2, 30]);
 
     // Add axes
-    svg.append('g').attr('transform', `translate(0, ${height - margin.bottom})`).call(d3.axisBottom(xScale));
-    svg.append('g').attr('transform', `translate(${margin.left}, 0)`).call(d3.axisLeft(yScale)
-        .tickFormat(d => String(d % 24).padStart(2, '0') + ':00'));
+    svg.append('g')
+        .attr('transform', `translate(0, ${height - margin.bottom})`)
+        .call(d3.axisBottom(xScale));
+    svg.append('g')
+        .attr('transform', `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(yScale)
+            .tickFormat(d => String(d % 24).padStart(2, '0') + ':00'));
 
     // Add gridlines
     svg.append('g')
@@ -120,11 +131,12 @@ function createScatterplot() {
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
-            d3.select(event.currentTarget).style('fill-opacity', 1);
+            // Optionally add a visual cue for selected elements
+            d3.select(event.currentTarget).classed('selected', true);
         })
-        .on('mouseleave', function () {
+        .on('mouseleave', function (event, commit) {
             updateTooltipVisibility(false);
-            d3.select(this).style('fill-opacity', 0.7);
+            d3.select(this).classed('selected', false);
         });
 
     // Brushing
@@ -135,18 +147,24 @@ function createScatterplot() {
     svg.append('g').attr('class', 'brush').call(brush);
 }
 
+// Update the brushed function to directly update selectedCommits
 function brushed(event) {
-    brushSelection = event.selection;
+    const selection = event.selection;
+    selectedCommits = !selection
+        ? []
+        : commits.filter(commit => {
+            const min = { x: selection[0][0], y: selection[0][1] };
+            const max = { x: selection[1][0], y: selection[1][1] };
+            const x = xScale(commit.datetime);
+            const y = yScale(commit.hourFrac);
+            return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+        });
     updateSelection();
 }
 
+// Simplify isCommitSelected to check directly for inclusion in selectedCommits
 function isCommitSelected(commit) {
-    if (!brushSelection) return false;
-    const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
-    const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
-    const x = xScale(commit.datetime);
-    const y = yScale(commit.hourFrac);
-    return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+    return selectedCommits.includes(commit);
 }
 
 function updateSelection() {
@@ -156,12 +174,13 @@ function updateSelection() {
 }
 
 function updateSelectionCount() {
-    const selectedCommits = brushSelection ? commits.filter(isCommitSelected) : [];
-    document.getElementById('selection-count').textContent = `${selectedCommits.length || 'No'} commits selected`;
+    // Use selectedCommits directly
+    document.getElementById('selection-count').textContent =
+        `${selectedCommits.length || 'No'} commits selected`;
 }
 
 function updateLanguageBreakdown() {
-    const selectedCommits = brushSelection ? commits.filter(isCommitSelected) : [];
+    // Use selectedCommits directly
     const container = document.getElementById('language-breakdown');
     
     if (selectedCommits.length === 0) {
