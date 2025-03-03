@@ -155,6 +155,14 @@
   <h1 class="meta-title">Meta Analysis of Codebase</h1>
   <p>Here are some insights into the codebase based on the commit history.</p>
 
+  <!-- In index.html, somewhere above the scatterplot container -->
+  <label id="time-filter">
+    Show commits until:
+    <input id="time-slider" type="range" min="0" max="100" value="100">
+    <time id="selectedTime"></time>
+  </label>
+  
+
   <!-- Updated: summary stats container -->
   <div class="summary-container">
     <!-- We'll populate this .summary div from main.js -->
