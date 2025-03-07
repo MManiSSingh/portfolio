@@ -2,14 +2,9 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 let data = [];
 let commits = [];
+// Removed brushSelection; we now have selectedCommits
 let selectedCommits = [];
-let xScale, yScale; // Global scales for scatterplot
-
-// NEW variables for Step 1:
-let commitProgress = 100; // slider value (0-100)
-let progressScale;       // scale to map slider percent to commit datetime
-let commitMaxTime;       // cutoff datetime for filtering
-let filteredCommits;     // commits filtered by time
+let xScale, yScale; // Declare global scales
 
 async function loadData() {
     data = await d3.csv('../meta/loc.csv', (row) => ({
@@ -22,20 +17,8 @@ async function loadData() {
     }));
 
     processCommits();
-    // Initialize the progressScale: maps from the commit datetime domain to [0, 100]
-    progressScale = d3.scaleTime()
-        .domain(d3.extent(commits, d => d.datetime))
-        .range([0, 100]);
-    // Determine the current max time based on commitProgress
-    commitMaxTime = progressScale.invert(commitProgress);
-    // Filter commits using the cutoff time
-    filterCommitsByTime();
-
     displayStats();
-    updateScatterplot(filteredCommits);
-
-    // Hook up the slider event to update the visualization as the user moves it
-    d3.select("#time-slider").on("input", updateTimeDisplay);
+    createScatterplot();
 }
 
 function processCommits() {
@@ -64,58 +47,96 @@ function processCommits() {
 }
 
 /**
- * Filter commits based on commitMaxTime.
+ *  Displays the summary stats (commits, files, total LOC, etc.)
+ *  in a row with large numbers and small labels.
  */
-function filterCommitsByTime() {
-    // Update the cutoff time based on current slider value
-    commitMaxTime = progressScale.invert(commitProgress);
-    filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
+function displayStats() {
+    // Remove any previous content in #stats
+    d3.select('#stats').selectAll('*').remove();
+
+    // Compute stats
+    const totalLOC = data.length;
+    const totalCommits = commits.length;
+    const numFiles = d3.group(data, d => d.file).size;
+    const maxFileLength = d3.max(data, d => d.line);
+    const avgFileLength = d3.mean(
+        d3.rollups(data, v => d3.max(v, d => d.line), d => d.file),
+        d => d[1]
+    );
+    const mostActivePeriod = d3.rollups(
+        data,
+        v => v.length,
+        d => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' })
+    );
+    const maxPeriod = d3.greatest(mostActivePeriod, d => d[1])?.[0] ?? 'N/A';
+
+    // Create a container for the summary row
+    const summary = d3.select('#stats')
+        .append('div')
+        .attr('class', 'summary');  // Make sure .summary is styled in your CSS
+
+    // Each stat is a .stat-item with a <span> label and a <strong> value
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Commits</span>
+            <strong>${totalCommits}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Files</span>
+            <strong>${numFiles}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Total LOC</span>
+            <strong>${totalLOC}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Longest Line</span>
+            <strong>${maxFileLength}</strong>
+        `);
+
+    summary.append('div')
+        .attr('class', 'stat-item')
+        .html(`
+            <span>Avg File</span>
+            <strong>${avgFileLength.toFixed(2)}</strong>
+        `);
 }
 
-/**
- * Called when the slider changes.
- */
-function updateTimeDisplay() {
-    commitProgress = +d3.select("#time-slider").property("value");
-    commitMaxTime = progressScale.invert(commitProgress);
-    // Update the <time> element to show the current cutoff time
-    d3.select("#selectedTime").text(commitMaxTime.toLocaleString());
-    // Filter commits and update the scatterplot
-    filterCommitsByTime();
-    updateScatterplot(filteredCommits);
-    // Optionally, update summary stats if you want them to reflect the filtered subset
-    displayStats();
-}
-
-function updateScatterplot(filteredCommits) {
+function createScatterplot() {
     const width = 1000,
           height = 600,
           margin = { top: 10, right: 10, bottom: 30, left: 50 };
-
-    // Remove the existing SVG so we can re-render
-    d3.select('#chart').select('svg').remove();
 
     const svg = d3.select('#chart')
         .append('svg')
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
 
-    // Update the xScale to use filteredCommits
+    // Define global scales
     xScale = d3.scaleTime()
-        .domain(d3.extent(filteredCommits, d => d.datetime))
+        .domain(d3.extent(commits, d => d.datetime))
         .range([margin.left, width - margin.right])
         .nice();
 
-    // yScale remains the same
     yScale = d3.scaleLinear()
         .domain([0, 24])
         .range([height - margin.bottom, margin.top]);
 
     const rScale = d3.scaleSqrt()
-        .domain(d3.extent(filteredCommits, d => d.totalLines))
+        .domain(d3.extent(commits, d => d.totalLines))
         .range([2, 30]);
 
-    // Add axes and gridlines
+    // Add axes
     svg.append('g')
         .attr('transform', `translate(0, ${height - margin.bottom})`)
         .call(d3.axisBottom(xScale));
@@ -125,6 +146,8 @@ function updateScatterplot(filteredCommits) {
             d3.axisLeft(yScale)
               .tickFormat(d => String(d % 24).padStart(2, '0') + ':00')
         );
+
+    // Add gridlines
     svg.append('g')
         .attr('class', 'gridlines')
         .attr('transform', `translate(${margin.left}, 0)`)
@@ -134,15 +157,13 @@ function updateScatterplot(filteredCommits) {
               .tickSize(-width + margin.right + margin.left)
         );
 
-    // Create circles for each commit
     const dots = svg.append('g').attr('class', 'dots');
 
     dots.selectAll('circle')
-        .data(d3.sort(filteredCommits, d => -d.totalLines))
+        .data(d3.sort(commits, d => -d.totalLines))
         .join('circle')
         .attr('cx', d => xScale(d.datetime))
         .attr('cy', d => yScale(d.hourFrac))
-        // The new circles will transition in from a radius of 0 (see CSS @starting-style below)
         .attr('r', d => rScale(d.totalLines))
         .style('fill', 'steelblue')
         .style('fill-opacity', 0.7)
@@ -150,6 +171,7 @@ function updateScatterplot(filteredCommits) {
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
+            // Optionally add a visual cue for selected elements
             d3.select(event.currentTarget).classed('selected', true);
         })
         .on('mouseleave', function () {
@@ -157,7 +179,7 @@ function updateScatterplot(filteredCommits) {
             d3.select(this).classed('selected', false);
         });
 
-    // Add brushing back in
+    // Brushing
     const brush = d3.brush()
         .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
         .on('start brush end', brushed);
@@ -167,7 +189,7 @@ function updateScatterplot(filteredCommits) {
         .call(brush);
 }
 
-// Update brushed and selection functions remain the same
+// Update the brushed function to directly update selectedCommits
 function brushed(event) {
     const selection = event.selection;
     selectedCommits = !selection
@@ -182,6 +204,7 @@ function brushed(event) {
     updateSelection();
 }
 
+// Simplify isCommitSelected to check directly for inclusion in selectedCommits
 function isCommitSelected(commit) {
     return selectedCommits.includes(commit);
 }
